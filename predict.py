@@ -50,7 +50,7 @@ def _main_(args):
 
                 for i in range(len(images)):
                     draw_boxes(images[i], batch_boxes[i], config['model']['labels'], obj_thresh) 
-                    cv2.imshow('video with bboxes', images[i])
+                    cv2.imshow('video with boxes', images[i])
                 images = []
             if cv2.waitKey(1) == 27: 
                 break  # esc to quit
