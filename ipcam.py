@@ -10,6 +10,7 @@ from keras.models import load_model
 from tqdm import tqdm
 import numpy as np
 from utils.gps import get_gps
+import requests
 
 def _main_(args):
     config_path  = args.conf
@@ -37,26 +38,48 @@ def _main_(args):
     #   Predict bounding boxes 
     ###############################
     if 'webcam' in input_path: # do detection on the first webcam
-        video_reader = cv2.VideoCapture(0)
+        # video_reader = cv2.VideoCapture(0)
 
-        # the main loop
-        batch_size  = 1
-        images      = []
+        # # the main loop
+        # batch_size  = 1
+        # images      = []
+        # while True:
+        #     ret_val, image = video_reader.read()
+        #     if ret_val == True: images += [image]
+
+        #     if (len(images)==batch_size) or (ret_val==False and len(images)>0):
+        #         batch_boxes = get_yolo_boxes(infer_model, images, net_h, net_w, config['model']['anchors'], obj_thresh, nms_thresh)
+
+        #         for i in range(len(images)):
+        #             someImage,Xmid,Ymid = draw_boxes(images[i], batch_boxes[i], config['model']['labels'], obj_thresh) 
+        #             cv2.imshow('video with boxes', images[i])
+        #             get_gps(Xmid,Ymid)
+        #         images = []
+        #     if cv2.waitKey(1) == 27: 
+        #         break  # esc to quit
+        # cv2.destroyAllWindows()        
+
+        url = "http://192.168.1.3:8080/shot.jpg"
         while True:
-            ret_val, image = video_reader.read()
-            if ret_val == True: images += [image]
-
-            if (len(images)==batch_size) or (ret_val==False and len(images)>0):
+            
+            img_resp = requests.get(url, verify=False)
+            img_array = np.array(bytearray(img_resp.content), dtype=np.uint8)
+            img = cv2.imdecode(img_array, -1)
+            height, width, channel = img.shape
+            batch_size = 1
+            images = []
+            images +=[img]
+            if (len(images)==batch_size) or (len(images)>0):
                 batch_boxes = get_yolo_boxes(infer_model, images, net_h, net_w, config['model']['anchors'], obj_thresh, nms_thresh)
 
                 for i in range(len(images)):
-                    someImage,Xmid,Ymid = draw_boxes(images[i], batch_boxes[i], config['model']['labels'], obj_thresh) 
+                    someImage,Xmid,Ymid = draw_boxes(images[i], batch_boxes[i], config['model']['labels'], obj_thresh)
                     cv2.imshow('video with boxes', images[i])
-                    get_gps(Xmid,Ymid)
-                images = []
-            if cv2.waitKey(1) == 27: 
-                break  # esc to quit
-        cv2.destroyAllWindows()        
+                    print(Xmid,Ymid)
+            images = []
+            if cv2.waitKey(1) == 27:
+                break
+
     elif input_path[-4:] == '.mp4': # do detection on a video  
         video_out = output_path + input_path.split('/')[-1]
         video_reader = cv2.VideoCapture(input_path)

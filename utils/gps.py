@@ -4,9 +4,9 @@ def get_gps(xmid, ymid):
 
 #Returns the gps value
 
-    #Center of image / The images are 640*480
-    x_center = 320
-    y_center = 240
+    #Center of image / The images are 1280*720
+    x_center = 640
+    y_center = 360
 
     #Calculating distance from center
     x = float(x_center-xmid)
