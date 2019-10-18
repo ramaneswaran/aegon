@@ -9,6 +9,7 @@ from utils.bbox import draw_boxes
 from keras.models import load_model
 from tqdm import tqdm
 import numpy as np
+from utils.gps import get_gps
 
 def _main_(args):
     config_path  = args.conf
@@ -51,7 +52,7 @@ def _main_(args):
                 for i in range(len(images)):
                     someImage,Xmid,Ymid = draw_boxes(images[i], batch_boxes[i], config['model']['labels'], obj_thresh) 
                     cv2.imshow('video with boxes', images[i])
-                    print(Xmid,Ymid)
+                    get_gps(Xmid,Ymid)
                 images = []
             if cv2.waitKey(1) == 27: 
                 break  # esc to quit
