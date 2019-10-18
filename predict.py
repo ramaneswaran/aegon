@@ -49,8 +49,9 @@ def _main_(args):
                 batch_boxes = get_yolo_boxes(infer_model, images, net_h, net_w, config['model']['anchors'], obj_thresh, nms_thresh)
 
                 for i in range(len(images)):
-                    draw_boxes(images[i], batch_boxes[i], config['model']['labels'], obj_thresh) 
+                    someImage,Xmid,Ymid = draw_boxes(images[i], batch_boxes[i], config['model']['labels'], obj_thresh) 
                     cv2.imshow('video with boxes', images[i])
+                    print(Xmid,Ymid)
                 images = []
             if cv2.waitKey(1) == 27: 
                 break  # esc to quit

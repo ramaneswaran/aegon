@@ -85,5 +85,9 @@ def draw_boxes(image, boxes, labels, obj_thresh, quiet=True):
                         fontScale=1e-3 * image.shape[0], 
                         color=(0,0,0), 
                         thickness=2)
+            #Finding the midpoint
+            xmid = box.xmin + (box.xmax-box.xmin)/2
+            ymid = box.ymin + (box.ymax-box.ymin)/2
+
         
-    return image          
+    return image,xmid,ymid          
