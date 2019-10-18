@@ -57,6 +57,8 @@ def bbox_iou(box1, box2):
     return float(intersect) / union
 
 def draw_boxes(image, boxes, labels, obj_thresh, quiet=True):
+    xmid=0
+    ymid=0
     for box in boxes:
         label_str = ''
         label = -1
