@@ -59,7 +59,11 @@ def _main_(args):
         #         break  # esc to quit
         # cv2.destroyAllWindows()        
 
-        url = "http://192.168.1.3:8080/shot.jpg"
+        url = "http://192.168.1.2:8080/shot.jpg"
+        temp_GPS = {
+            'latitude': 0,
+            'longitude': 0
+        }
         while True:
             
             img_resp = requests.get(url, verify=False)
@@ -75,7 +79,10 @@ def _main_(args):
                 for i in range(len(images)):
                     someImage,Xmid,Ymid = draw_boxes(images[i], batch_boxes[i], config['model']['labels'], obj_thresh)
                     cv2.imshow('video with boxes', images[i])
-                    print(Xmid,Ymid)
+                    if(Xmid!=0 and Ymid!=0):
+                        GPS = get_gps(Xmid,Ymid,temp_GPS)
+                        temp_GPS = GPS
+                        print(GPS)
             images = []
             if cv2.waitKey(1) == 27:
                 break

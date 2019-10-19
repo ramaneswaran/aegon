@@ -38,7 +38,7 @@ def _main_(args):
     ###############################
     if 'webcam' in input_path: # do detection on the first webcam
         video_reader = cv2.VideoCapture(0)
-
+    
         # the main loop
         batch_size  = 1
         images      = []
@@ -52,7 +52,9 @@ def _main_(args):
                 for i in range(len(images)):
                     someImage,Xmid,Ymid = draw_boxes(images[i], batch_boxes[i], config['model']['labels'], obj_thresh) 
                     cv2.imshow('video with boxes', images[i])
-                    get_gps(Xmid,Ymid)
+                    if(Xmid!=0 and Ymid!=0):
+                        GPS = get_gps(Xmid,Ymid)
+                        print(GPS)
                 images = []
             if cv2.waitKey(1) == 27: 
                 break  # esc to quit
