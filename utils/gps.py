@@ -44,7 +44,7 @@ def get_gps(xmid, ymid, tempGPS):
 
     GPS = {'latitude': round((lat + offset_target[0]),5), 
             'longitude': round((lon + offset_target[1]),5)}
-    
+    print(GPS)
     if(tempGPS['latitude'] != GPS['latitude'] and tempGPS['latitude'] != GPS['latitude']):
         #Write to file
         
