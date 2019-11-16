@@ -1,5 +1,19 @@
 # YOLO3 (Detection, Training, and Evaluation)
 
+## My Modifications To The Fork
+
+My version of code uses the yolov3 to detect and localise people and track their GPS coordinates in real time,
+the video feed is taken from mobile phone's rear camera using ipcam
+
+1.Added code to integrate ipcam
+
+2.Making calls to GPS API
+
+3.Finding image coordinates of detected people
+
+4.Converting Image coordinates to real world GPS coordinates
+
+
 ## Dataset and Model
 
 Dataset | mAP | Demo | Config | Model
